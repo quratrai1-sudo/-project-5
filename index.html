@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhaj University Lahore - Student Portal</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header / Sticky Navigation Bar -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#dashboard" class="nav-logo" onclick="switchPage('dashboard')">
+                <i class="fa-solid fa-graduation-cap"></i> CMS Portal
+            </a>
+
+            <nav class="nav-links" id="nav-links">
+                <a href="#dashboard" class="nav-item active" onclick="switchPage('dashboard')"><i class="fa-solid fa-house"></i> Dashboard</a>
+                <a href="#schedule" class="nav-item" onclick="switchPage('schedule')"><i class="fa-solid fa-calendar-days"></i> Schedule</a>
+                <a href="#courses" class="nav-item" onclick="switchPage('courses')"><i class="fa-solid fa-book-open"></i> Courses</a>
+                <a href="#profile" class="nav-item" onclick="switchPage('profile')"><i class="fa-solid fa-user"></i> Profile</a>
+                <a href="#contact" class="nav-item" onclick="switchPage('contact')"><i class="fa-solid fa-envelope"></i> Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <div class="hamburger" id="hamburger">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <button class="logout-btn" id="logout-btn" onclick="logout()" style="display:none;" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+
+        <!-- 1. LOGIN PAGE (WITH BACKGROUND IMAGE) -->
+        <section id="login-page" class="page-section active-page">
+            <div class="login-overlay"></div>
+            <div class="login-wrapper">
+                <div class="login-card">
+                    <div class="card-header">
+                        <div class="logo-circle">
+                            <i class="fa-solid fa-university"></i>
+                        </div>
+                        <h2>Campus Management System</h2>
+                        <p class="subtitle">Minhaj University Lahore</p>
+                    </div>
+
+                    <form id="login-form" onsubmit="handleLogin(event)" novalidate>
+                        <!-- Email / Username -->
+                        <div class="form-group">
+                            <label for="email">Email or Username</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-envelope input-icon"></i>
+                                <input type="text" id="email" placeholder="your login ID or Gmail" required>
+                            </div>
+                            <small class="error-msg" id="email-error"></small>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-lock input-icon"></i>
+                                <input type="password" id="password" placeholder="your login password" required>
+                                <i class="fa-solid fa-eye toggle-password" id="toggle-password"></i>
+                            </div>
+                            <small class="error-msg" id="password-error"></small>
+                            
+                            <!-- Real-time Password Validation Box -->
+                            <div class="password-meter" id="password-meter">
+                                <div class="meter-bar"><span id="strength-bar"></span></div>
+                                <ul class="pwd-requirements">
+                                    <li id="req-length"><i class="fa-solid fa-circle-xmark"></i> Must be at least 8 characters</li>
+                                    <li id="req-num"><i class="fa-solid fa-circle-xmark"></i> Must include a number</li>
+                                    <li id="req-spec"><i class="fa-solid fa-circle-xmark"></i> Must include a special character (@, #, $, etc.)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                            <button type="button" class="btn btn-warning" onclick="showPasswordReminder()">Forgot Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. DASHBOARD PAGE -->
+        <section id="dashboard-page" class="page-section">
+            <div class="container">
+                <div class="session-selector">
+                    <label for="session">Academic Session</label>
+                    <select id="session">
+                        <option>Spring 2026</option>
+                        <option>Fall 2025</option>
+                    </select>
+                </div>
+
+                <h2 class="section-title">Registered Courses (Spring 2026)</h2>
+
+                <div class="course-grid">
+                    <!-- Course 1 -->
+                    <div class="course-card purple-gradient" onclick="openCourseDetails('COMP234', 'Information Security', 'Faiqa Rasheed', 'faiqarasheed.it@mul.edu.pk')">
+                        <span class="badge">COMP234</span>
+                        <div class="card-media"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="card-body">
+                            <h3>Information Security</h3>
+                            <div class="card-meta">
+                                <span class="tag-badge red"><i class="fa-solid fa-book"></i> 4</span>
+                                <span class="tag-badge blue"><i class="fa-solid fa-bell"></i> 3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 2 -->
+                    <div class="course-card green-gradient" onclick="openCourseDetails('COMP236', 'Computer Organization & Assembly', 'Dr. Arslan', 'arslan@mul.edu.pk')">
+                        <span class="badge">COMP236</span>
+                        <div class="card-media"><i class="fa-solid fa-microchip"></i></div>
+                        <div class="card-body">
+                            <h3>Computer Organization & Assembly</h3>
+                            <div class="card-meta">
+                                <span class="tag-badge red"><i class="fa-solid fa-book"></i> 3</span>
+                                <span class="tag-badge blue"><i class="fa-solid fa-bell"></i> 6</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 3 -->
+                    <div class="course-card teal-gradient" onclick="openCourseDetails('COMP336', 'Web Technologies', 'Prof. Usman', 'usman.tech@mul.edu.pk')">
+                        <span class="badge">COMP336</span>
+                        <div class="card-media"><i class="fa-solid fa-laptop-code"></i></div>
+                        <div class="card-body">
+                            <h3>Web Technologies</h3>
+                            <div class="card-meta">
+                                <span class="tag-badge red"><i class="fa-solid fa-book"></i> 3</span>
+                                <span class="tag-badge blue"><i class="fa-solid fa-bell"></i> 2</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 4 -->
+                    <div class="course-card deep-purple-gradient" onclick="openCourseDetails('ITEC206', 'Virtual System And Services', 'Muhammad Ali Khan', 'alikhan@mul.edu.pk')">
+                        <span class="badge">ITEC206</span>
+                        <div class="card-media"><i class="fa-solid fa-server"></i></div>
+                        <div class="card-body">
+                            <h3>Virtual System And Services</h3>
+                            <div class="card-meta">
+                                <span class="tag-badge red"><i class="fa-solid fa-book"></i> 3</span>
+                                <span class="tag-badge blue"><i class="fa-solid fa-bell"></i> 2</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. LECTURE SCHEDULE PAGE -->
+        <section id="schedule-page" class="page-section">
+            <div class="container">
+                <div class="content-box">
+                    <h2 class="section-title">Lecture Schedule Timetable</h2>
+                    <div class="day-tabs">
+                        <span class="day-badge active">Monday</span>
+                        <span class="day-badge">Tuesday</span>
+                        <span class="day-badge">Wednesday</span>
+                        <span class="day-badge">Thursday</span>
+                    </div>
+
+                    <div class="timetable-card">
+                        <div class="time-header">Lecture 1</div>
+                        <p><i class="fa-solid fa-book"></i> <strong>ITEC206 - Virtual System and Services</strong></p>
+                        <p><i class="fa-solid fa-clock"></i> 08:30 AM - 10:30 AM</p>
+                        <p><i class="fa-solid fa-location-dot"></i> Room 6307-6309</p>
+                        <p><i class="fa-solid fa-user-tie"></i> Teacher: Muhammad Ali Khan</p>
+                    </div>
+
+                    <div class="timetable-card secondary">
+                        <div class="time-header">Lecture 2</div>
+                        <p><i class="fa-solid fa-book"></i> <strong>COMP336 - Web Technologies</strong></p>
+                        <p><i class="fa-solid fa-clock"></i> 10:30 AM - 12:00 PM</p>
+                        <p><i class="fa-solid fa-location-dot"></i> Lab 4 (IT Block)</p>
+                        <p><i class="fa-solid fa-user-tie"></i> Teacher: Prof. Usman</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. COURSES DETAIL PAGE (WITH ASSIGNMENT UPLOADER & OUTLINES) -->
+        <section id="courses-page" class="page-section">
+            <div class="container">
+                <div class="course-header-banner">
+                    <h2 id="active-course-code">COMP234 - Information Security</h2>
+                    <div class="instructor-info">
+                        <div class="avatar-box">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </div>
+                        <div>
+                            <h4 id="active-teacher-name">Faiqa Rasheed</h4>
+                            <p id="active-teacher-email">Email: faiqarasheed.it@mul.edu.pk</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tab-menu">
+                    <button class="tab-btn active" onclick="openTab(event, 'info-tab')">Information</button>
+                    <button class="tab-btn" onclick="openTab(event, 'lesson-tab')">Lesson Plan</button>
+                    <button class="tab-btn" onclick="openTab(event, 'assignment-tab')">Assignments</button>
+                </div>
+
+                <!-- Tab 1: Information -->
+                <div id="info-tab" class="tab-content active">
+                    <div class="content-box">
+                        <h3>Course Information</h3>
+                        <p><strong>Course Code & Title:</strong> <span id="info-course-title">COMP234 - Information Security</span></p>
+                        <p><strong>Credit Hours:</strong> 3 (2 Theory, 1 Practical)</p>
+                        <hr class="divider">
+                        <h3>Introduction & Course Outline</h3>
+                        <small>Last Update: 13 April, 2026 10:12 AM</small>
+                        <p style="margin-top: 0.5rem;">This course introduces the fundamental principles and practices that protect digital assets, network infrastructure, and information systems from threats and vulnerabilities.</p>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Lesson Plan -->
+                <div id="lesson-tab" class="tab-content">
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <button class="accordion-header" onclick="toggleAccordion(this)">Week - 1 <i class="fa-solid fa-chevron-down"></i></button>
+                            <div class="accordion-body">Introduction to Information Security Principles & Cryptography basics.</div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header" onclick="toggleAccordion(this)">Week - 2 <i class="fa-solid fa-chevron-down"></i></button>
+                            <div class="accordion-body">Symmetric and Asymmetric Encryption Techniques.</div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header" onclick="toggleAccordion(this)">Week - 3 <i class="fa-solid fa-chevron-down"></i></button>
+                            <div class="accordion-body">Network Defense, Firewalls, and Intrusion Detection Systems.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Assignments & File Upload -->
+                <div id="assignment-tab" class="tab-content">
+                    <div class="content-box">
+                        <h3>Submit Course Assignment</h3>
+                        <p>Upload your assignment document (PDF, DOCX, or ZIP format):</p>
+                        
+                        <form onsubmit="handleAssignmentUpload(event)" class="upload-form">
+                            <div class="file-upload-box">
+                                <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                                <label for="assignment-file" class="upload-label">Click here to open File Explorer</label>
+                                <input type="file" id="assignment-file" required onchange="showFileName(this)">
+                                <p id="selected-file-name" class="file-name-text">No file chosen</p>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Upload Assignment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. PROFILE PAGE -->
+        <section id="profile-page" class="page-section">
+            <div class="container">
+                <div class="profile-card">
+                    <!-- Student Image -->
+                    <div class="profile-avatar-wrapper">
+                        <img src="images/student-avatar.jpg" alt="Student Profile" class="profile-img" onerror="this.src='https://via.placeholder.com/150/7b2cbf/ffffff?text=Student+Image'">
+                    </div>
+                    <h2>Qurratulain</h2>
+                    <span class="badge-tag">2024F-mulug-0021</span>
+
+                    <div class="profile-details">
+                        <h3>Academic Information</h3>
+                        <div class="detail-row"><span>Registration No:</span> <strong>2024F-mulug-0021</strong></div>
+                        <div class="detail-row"><span>Session:</span> <strong>Fall 2024</strong></div>
+                        <div class="detail-row"><span>Program:</span> <strong>BS Information Technology</strong></div>
+                        <div class="detail-row"><span>Date Of Joining:</span> <strong>20-06-2024</strong></div>
+                        <div class="detail-row"><span>Form No:</span> <strong>26514</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. CONTACT PAGE -->
+        <section id="contact-page" class="page-section">
+            <div class="container">
+                <div class="content-box max-600">
+                    <h2>Contact Campus Support</h2>
+                    <form onsubmit="alert('Your message has been submitted to support!'); return false;">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" class="input-field" value="Qurratulain" required>
+                        </div>
+                        <div class="form-group">
+                            <label>University Email</label>
+                            <input type="email" class="input-field" value="qurratulain@mul.edu.pk" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Message / Issue</label>
+                            <textarea class="input-field" rows="4" placeholder="Write your message here..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Query</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scroll To Top Button -->
+    <button class="scroll-top-btn" id="scrollTopBtn" title="Go to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>© 2026 - All Rights Reserved.</p>
+            <p>Powered by: <strong>Minhaj University Lahore v1.0</strong></p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
